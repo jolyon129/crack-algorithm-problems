@@ -1,4 +1,4 @@
-package edu.nyu.jolyon;
+package learning.java.junit;
 
 public class ValidateISBIN {
     public int addUp(int a, int b){

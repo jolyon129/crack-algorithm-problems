@@ -2,7 +2,7 @@ package edu.nyu.jolyon;
 
 // 289. Game of Life
 
-public class LC_288 {
+public class LC288gameOfLife {
     /**
      * Take O(M*N) space
      * 
@@ -161,7 +161,7 @@ public class LC_288 {
     }
 
     public static void main(String[] args) {
-        var sol = new LC_288();
+        var sol = new LC288gameOfLife();
         int[][] board = {{0,1,0},{0,0,1},{0,0,0}};
         sol.gameOfLife2(board);
         // sol.gameofLife2();

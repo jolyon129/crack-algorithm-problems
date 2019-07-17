@@ -3,9 +3,9 @@ package edu.nyu.jolyon;
 import java.util.Random;
 
 /**
- * LC_215
+ * LC215findKthLargest
  */
-public class LC_215 {
+public class LC215findKthLargest {
     public int findKthLargest(int[] nums, int k) {
         int k_smallest = nums.length - (k); 
         return quickSelect(0, nums.length, nums, k_smallest);
@@ -47,7 +47,7 @@ public class LC_215 {
     }
 
     public static void main(String[] args) {
-        var sol = new LC_215();
+        var sol = new LC215findKthLargest();
         int[] nums = {99,99};
         var t = sol.findKthLargest(nums, 1);
         System.out.println(t);

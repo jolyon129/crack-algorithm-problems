@@ -1,10 +1,10 @@
 package edu.nyu.jolyon;
 
 /**
- * LC_1031
+ * LC1031maxSumTwoNoOverlap
  */
-public class LC_1031 {
-    public int maxSumTwoNoOverlap(int[] A, int L, int M) { 
+public class LC1031maxSumTwoNoOverlap {
+    public int maxSumTwoNoOverlap(int[] A, int L, int M) {
         /**
          *  If M-length array occur after L,
          *  Msum: sum of the last M elements from the current idx
@@ -38,5 +38,5 @@ public class LC_1031 {
         }
         return res;
     }
-    
+
 }

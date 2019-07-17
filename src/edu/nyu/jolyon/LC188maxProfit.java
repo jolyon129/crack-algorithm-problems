@@ -1,9 +1,9 @@
 package edu.nyu.jolyon;
 
 /**
- * LC_188_maxProfit
+ * LC188maxProfit
  */
-public class LC_188_maxProfit {
+public class LC188maxProfit {
     public int maxProfit(int k, int[] prices) {
         int sell;
         int diff;

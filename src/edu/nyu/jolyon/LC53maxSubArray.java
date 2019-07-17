@@ -1,6 +1,9 @@
 package edu.nyu.jolyon;
 
-class LC_53 {
+/**
+ * 53
+ */
+class LC53maxSubArray {
     public int maxSubArray(int[] nums) {
         if (nums.length == 1) {
             return nums[0];

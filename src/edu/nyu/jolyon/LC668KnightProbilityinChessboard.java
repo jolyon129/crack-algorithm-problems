@@ -1,7 +1,7 @@
 package edu.nyu.jolyon;
 
 import java.util.ArrayDeque;
-import java.util.ArrayList;
+import java.util.*;
 
 public class LC668KnightProbilityinChessboard {
     /**
@@ -15,8 +15,8 @@ public class LC668KnightProbilityinChessboard {
     public double knightProbability(int N, int K, int sr, int sc) {
         // Default value is zero;
         double[][] dp = new double[N][N];
-        int[] dr = new int[]{2, 2, 1, 1, -1, -1, -2, -2};
-        int[] dc = new int[]{1, -1, 2, -2, 2, -2, 1, -1};
+        int[] dr = {2, 2, 1, 1, -1, -1, -2, -2};
+        int[] dc = {1, -1, 2, -2, 2, -2, 1, -1};
         // use dp to represent the previous step of dp/
         dp[sr][sc] = 1;
         for (; K > 0; K--) {

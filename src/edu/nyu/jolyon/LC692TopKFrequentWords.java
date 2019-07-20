@@ -6,23 +6,22 @@ import java.util.*;
 public class LC692TopKFrequentWords {
 
     public List<String> topKFrequent(String[] words, int k) {
-        Map<String, Integer> hashMap = new HashMap<>();
-        for(String s:words){
-            hashMap.put(s, hashMap.getOrDefault(s,0)+1);
+        Map<String, Integer> count = new HashMap();
+        for (String word: words) {
+            count.put(word, count.getOrDefault(word, 0) + 1);
         }
-        PriorityQueue<String> heap = new PriorityQueue<>(
-                (w1, w2) -> hashMap.get(w1).equals(hashMap.get(w2)) ?
-                        w1.compareTo(w2) : hashMap.get(w2) - hashMap.get(w1) );
-        for(String s: hashMap.keySet()){
-            heap.add(s);
+        PriorityQueue<String> heap = new PriorityQueue<String>(
+                (w1, w2) -> count.get(w1).equals(count.get(w2)) ?
+                        w2.compareTo(w1) : count.get(w1) - count.get(w2) );
+
+        for (String word: count.keySet()) {
+            heap.offer(word);
+            if (heap.size() > k) heap.poll();
         }
 
-        List<String> res = new ArrayList<>();
-        while (!heap.isEmpty() && k>0){
-            res.add(heap.poll());
-            k--;
-        }
-//        Collections.reverse(res);
-        return res;
+        List<String> ans = new ArrayList();
+        while (!heap.isEmpty()) ans.add(heap.poll());
+        Collections.reverse(ans);
+        return ans;
     }
 }

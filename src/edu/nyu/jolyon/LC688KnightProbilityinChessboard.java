@@ -3,7 +3,7 @@ package edu.nyu.jolyon;
 import java.util.ArrayDeque;
 import java.util.*;
 
-public class LC668KnightProbilityinChessboard {
+public class LC688KnightProbilityinChessboard {
     /**
      * Using two-dimensional DP
      * @param N
@@ -72,7 +72,9 @@ public class LC668KnightProbilityinChessboard {
             int[] new_pos = new int[2];
             new_pos[0] = x + d[0];
             new_pos[1] = y + d[1];
-            if (check(new_pos, N)) queue.add(new_pos);
+            if (check(new_pos, N)) {
+                queue.add(new_pos);
+            }
         }
         K--;
         int[] tmp;

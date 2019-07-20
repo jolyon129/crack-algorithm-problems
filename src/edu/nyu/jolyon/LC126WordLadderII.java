@@ -35,10 +35,17 @@ public class LC126WordLadderII {
     private HashSet<String> travel1level(HashSet<String> bfs_set, Set another_set, boolean flip) {
         boolean done = false;
         HashSet<String> next_set = new HashSet<>();
-        wordDict.removeAll(bfs_set);
-        wordDict.removeAll(another_set);
+        /**
+         * Must check visited items here!!!!!!!
+         * I DONT KNOW WHY !!!
+         * Add all the items in our queue to visted!
+         * */
+        visited.addAll(bfs_set);
+        visited.addAll(another_set);
+//        wordDict.removeAll(bfs_set);
+//        wordDict.removeAll(another_set);
         for (String s : bfs_set) {
-
+//            visited.add(s);
             char[] char_arr = s.toCharArray();
             for (int i = 0; i < char_arr.length; i++) {
                 char old_c = char_arr[i];
@@ -59,18 +66,15 @@ public class LC126WordLadderII {
                                 graph.put(key, new ArrayList<String>());
                             }
                             graph.get(key).add(value);
-                            visited.add(new_word);
-
                         }
-                        if (!done && (wordDict.contains(new_word))) {
+                        if (!done && (wordDict.contains(new_word) && !visited.contains(new_word))) {
                             if (!graph.containsKey(key)) {
                                 graph.put(key, new ArrayList<String>());
                             }
                             graph.get(key).add(value);
-                            visited.add(new_word);
+//                            visited.add(new_word);
                             next_set.add(new_word);
                         }
-
                         // Restore the char_arr
                         char_arr[i] = old_c;
                     }
@@ -80,6 +84,7 @@ public class LC126WordLadderII {
         if (done) {
             return new HashSet<>();
         }
+//        visited.addAll(next_set);
         return next_set;
     }
 

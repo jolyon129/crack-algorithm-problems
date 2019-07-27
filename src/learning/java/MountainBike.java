@@ -1,4 +1,4 @@
-package learning.java.superwithsub;
+package learning.java;
 
 public class MountainBike extends Bicycle {
 

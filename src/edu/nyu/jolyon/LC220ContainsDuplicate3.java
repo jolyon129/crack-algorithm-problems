@@ -34,7 +34,7 @@ public class LC220ContainsDuplicate3 {
     static class Solution2{
         private long getBucketId(int num, int t){
             // Be careful!!
-            // Since we are minus a min_value, change every int into long!
+            // Since we are minus a min_value, change every int in
             return ((long)num - Integer.MIN_VALUE)/((long)t+1);
         }
         public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t){

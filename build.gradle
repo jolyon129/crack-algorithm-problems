@@ -1,0 +1,18 @@
+plugins {
+    id 'java'
+}
+
+group 'edu.nyu.jolyon'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+//    compile group: 'org.'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+//    testImplementation 'org.hamcrest:hamcrest:2.1'
+}

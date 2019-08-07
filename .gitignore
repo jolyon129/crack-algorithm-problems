@@ -2,6 +2,7 @@ tmp
 
 .gradle
 out
+.vscode
 
 # Compiled class file
 *.class

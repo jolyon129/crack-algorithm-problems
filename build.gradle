@@ -5,14 +5,15 @@ plugins {
 group 'edu.nyu.jolyon'
 version '1.0-SNAPSHOT'
 
-sourceCompatibility = 1.8
+sourceCompatibility = 10
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-//    compile group: 'org.'
+
     testCompile group: 'junit', name: 'junit', version: '4.12'
 //    testImplementation 'org.hamcrest:hamcrest:2.1'
+    compile 'com.google.guava:guava:23.6-jre'
 }

@@ -43,15 +43,17 @@ public class LC959ReginsCutBySlashes {
             }
         }
         public void union(int x, int y){
+            int y_p = find(y);
+            int x_p = find(x);
             if(find(x)==find(y)) return;
             else{
-                if(ranks[x]<ranks[y]){
-                    parents[find(x)] = find(y);
-                }else if(ranks[x]>ranks[y]){
-                    parents[find(y)] =find(x);
+                if(ranks[x_p]<ranks[y_p]){
+                    parents[x_p] = y_p;
+                }else if(ranks[x_p]>ranks[y_p]){
+                    parents[y_p] =x_p;
                 }else{
-                    parents[find(y)] = find(x);
-                    ranks[x] += 1;
+                    parents[y_p] = x_p;
+                    ranks[x_p] += 1;
                 }
             }
         }

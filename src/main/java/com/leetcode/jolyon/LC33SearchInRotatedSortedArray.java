@@ -109,7 +109,6 @@ public class LC33SearchInRotatedSortedArray {
                 }
             }
             return nums.length-1;
-
         }
     }
 }

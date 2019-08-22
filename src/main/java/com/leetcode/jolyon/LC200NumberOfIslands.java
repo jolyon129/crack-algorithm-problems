@@ -1,79 +1,115 @@
 package com.leetcode.jolyon;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class LC200NumberOfIslands {
-    static class Solution {
+    static class DFSSolution {
+        void dfs(char[][] grid, int r, int c) {
+            int nr = grid.length;
+            int nc = grid[0].length;
 
-    }
+            if (r < 0 || c < 0 || r >= nr || c >= nc || grid[r][c] == '0') {
+                return;
+            }
 
-    static class SolutionWithoutDFSBFS {
+            grid[r][c] = '0';
+            dfs(grid, r - 1, c);
+            dfs(grid, r + 1, c);
+            dfs(grid, r, c - 1);
+            dfs(grid, r, c + 1);
+        }
+
         public int numIslands(char[][] grid) {
-            Set<Integer> equivalenceTable = new HashSet<>();
-            int labelID = 2;
-            int N = grid.length;
-            if(N==0) return 0;
-            int M = grid[0].length;
-            int[][] labelGrid = new int[N][M];
-            for (int i = 0; i < N; i++) {
-                for (int j = 0; j < M; j++) {
-                    if (grid[i][j] == '1') {
-                        int[] upper = new int[]{i-1, j};
-                        int[] left = new int[]{i, j-1};
-                        int leftLabel, upperLabel;
-                        if (i == 0 && j == 0) {
-                            ++labelID;
-                            labelGrid[i][j] = labelID;
-                            equivalenceTable.add(labelID);
-                            continue;
-                        }
-                        if (i == 0) {
-                            leftLabel = labelGrid[left[0]][left[1]];
-                            if (leftLabel != 0) {
-                                labelGrid[i][j] = leftLabel;
-                            } else {
-                                ++labelID;
-                                labelGrid[i][j] = labelID;
-                                equivalenceTable.add(labelID);
-                            }
-                            continue;
-                        }
-                        if (j == 0) {
-                            upperLabel = labelGrid[upper[0]][upper[1]];
-                            if (upperLabel != 0) {
-                                labelGrid[i][j] = upperLabel;
-                            } else {
-                                ++labelID;
-                                labelGrid[i][j] = labelID;
-                                equivalenceTable.add(labelID);
-                            }
-                            continue;
-                        }
+            if (grid == null || grid.length == 0) {
+                return 0;
+            }
 
-                        upperLabel = labelGrid[upper[0]][upper[1]];
-                        leftLabel = labelGrid[left[0]][left[1]];
-
-                        if (leftLabel == 0 && upperLabel == 0) {
-                            ++labelID;
-                            labelGrid[i][j] = labelID;
-                            equivalenceTable.add(labelID);
-                        } else if (leftLabel != 0 && upperLabel != 0) {
-                            labelGrid[i][j] = upperLabel;
-                            if (leftLabel != upperLabel) {
-                                int key = leftLabel;
-                                equivalenceTable.remove(key);
-                            } else {
-                                labelGrid[i][j] = upperLabel;
-                            }
-                        } else {
-                            labelGrid[i][j] = upperLabel != 0 ? (upperLabel) : leftLabel;
-                        }
-
+            int nr = grid.length;
+            int nc = grid[0].length;
+            int num_islands = 0;
+            for (int r = 0; r < nr; ++r) {
+                for (int c = 0; c < nc; ++c) {
+                    if (grid[r][c] == '1') {
+                        ++num_islands;
+                        dfs(grid, r, c);
                     }
                 }
             }
-            return equivalenceTable.size();
+
+            return num_islands;
+        }
+    }
+
+    static class UnionSolution{
+        public int numIslands(char[][] grid) {
+            if (grid == null || grid.length == 0) {
+                return 0;
+            }
+            int num = grid.length * grid[0].length;
+            int nr = grid.length;
+            int nc = grid[0].length;
+            UnionSet uf = new UnionSet(num);
+            for (int r = 0; r < nr; ++r) {
+                for (int c = 0; c < nc; ++c) {
+                    if (grid[r][c] == '1') {
+                        if (r - 1 >= 0 && grid[r - 1][c] == '1') {
+                            uf.union(r * nc + c, (r - 1) * nc + c);
+                        }
+                        // if (r + 1 < nr && grid[r + 1][c] == '1') {
+                        //     uf.union(r * nc + c, (r + 1) * nc + c);
+                        // }
+                        if (c - 1 >= 0 && grid[r][c - 1] == '1') {
+                            uf.union(r * nc + c, r * nc + c - 1);
+                        }
+                        // if (c + 1 < nc && grid[r][c + 1] == '1') {
+                        //     uf.union(r * nc + c, r * nc + c + 1);
+                        // }
+                    }else{
+                        uf.parents[r * nc + c]=-1;
+                    }
+                }
+            }
+            int count = 0;
+            for (int i = 0; i < uf.parents.length; i++) {
+                if (uf.parents[i] == i) {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        public int calculate(int r, int c, char[][] grid) {
+            return r * grid.length + c;
+        }
+
+        public class UnionSet {
+            int[] ranks;
+            int[] parents;
+
+            public UnionSet(int num) {
+                ranks = new int[num];
+                parents = new int[num];
+                for (int i = 0; i < num; i++) {
+                    parents[i] = i;
+                }
+            }
+
+            public int find(int idx) {
+                if (parents[idx] != idx) {
+                    parents[idx] = find(parents[idx]);
+                }
+                return parents[idx];
+            }
+
+            public void union(int i1, int i2) {
+                if (find(i1) == find(i2)) return;
+                if (ranks[i1] < ranks[i2]) {
+                    parents[find(i1)] = find(i2);
+                } else if (ranks[i1] > ranks[i2]) {
+                    parents[find(i2)] = find(i1);
+                } else {
+                    parents[find(i1)] = find(i2);
+                    ranks[find(i2)] += 1;
+                }
+            }
         }
     }
 }

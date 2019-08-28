@@ -1,34 +1,35 @@
 package com.leetcode.jolyon;
 
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LC20ValidParentheses {
     public boolean isValid(String s) {
-        Stack<Character> stack = new Stack<>();
+        Deque<Character> stack = new ArrayDeque<>();
         if (s.equals("")) {
+            return true;
+        }
+        if (s.length() % 2 == 1) {
             return false;
         }
-        if (s.length() / 2 != 0) {
-            return false;
-        }
+        Map<Character, Character> brackets = new HashMap<>();
+        brackets.put('(', ')');
+        brackets.put('[', ']');
+        brackets.put('{', '}');
         for (int i = 0; i < s.length(); i++) {
-            if (s.charAt(i) == ')' || s.charAt(i) == ']' || s.charAt(i) == '}') {
-                char b = stack.peek();
-                char b_r = s.charAt(i);
-                if ((b_r == ']' && b != '[') || (b_r == '}' && b != '{') || (b_r == ')' && b != '(')) {
-                    return false;
-                }else{
-                    stack.pop();
-                }
+            if (!brackets.containsKey(s.charAt(i))) {
+                if (stack.size() == 0) return false;
+                char ele = stack.pollLast();
+                if (s.charAt(i) != brackets.get(ele)) return false;
             } else {
                 stack.add(s.charAt(i));
             }
         }
         if (!stack.isEmpty()) {
             return false;
-        } else {
-            return true;
         }
-
+        return true;
     }
 }

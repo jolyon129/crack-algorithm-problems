@@ -11,6 +11,7 @@ public class LC410SplitArrayLargestSum {
         /**
          * At an index that is greater than 0, we can either add the current
          * element to the previous group or start a new group.
+         *
          * @param nums
          * @param i
          * @param cntSubarrays
@@ -54,7 +55,7 @@ public class LC410SplitArrayLargestSum {
 
             int[] prefixSum = new int[n + 1];
             prefixSum[0] = 0;
-            for (int i = 1; i <= n; ++i){
+            for (int i = 1; i <= n; ++i) {
                 prefixSum[i] = prefixSum[i - 1] + nums[i - 1];
                 dp[1][i] = prefixSum[i];
             }
@@ -72,46 +73,47 @@ public class LC410SplitArrayLargestSum {
      */
     static class BinarySearchSolution {
         public int splitArray(int[] nums, int m) {
-            long right =0;
-            for(int i=0;i<nums.length;i++){
-                right+=nums[i];
+            long right = 0;
+            for (int i = 0; i < nums.length; i++) {
+                right += nums[i];
             }
             long left = 0;
-            while(left<=right){
-                long mid = (left+right)/2;
-                if(isValid(nums,mid,m)){
-                    if(!isValid(nums,mid-1,m)){
-                        return (int)mid;
-                    }else{
-                        right = mid;
-                    }
-                }else{
-                    left = mid+1;
+            while (left + 1 < right) {
+                long mid = (left + right) / 2;
+                if (isValid(nums, mid, m)) {
+                    right = mid;
+                } else {
+                    left = mid;
                 }
+            }
+            if (isValid(nums, left, m)) {
+                return (int) left;
+            }
+            if (isValid(nums, right, m)) {
+                return (int) right;
             }
             return -1;
 
         }
-        private boolean isValid(int[] nums, long target, int m){
-            long curSum =0;
-            int i=0;
-            int splitNum =0;
-            for(;i<nums.length&&m>0;i++){
-                if(curSum+nums[i]<=target){
+
+        private boolean isValid(int[] nums, long target, int m) {
+            long curSum = 0;
+            int i = 0;
+            int splitNum = 0;
+            for (; i < nums.length && m > 0; i++) {
+                if (curSum + nums[i] <= target) {
                     curSum += nums[i];
-                }else{
+                } else {
                     splitNum++;
                     curSum = nums[i];
-                    // If anyone of the element is greater than the target,
-                    // return false
-                    if(curSum>target){
+                    if (curSum > target) {
                         return false;
                     }
                 }
             }
-            if(i==nums.length&&splitNum<m){
+            if (i == nums.length && splitNum < m) {
                 return true;
-            }else{
+            } else {
                 return false;
             }
         }

@@ -1,45 +1,21 @@
 package com.leetcode.jolyon;
 
-import java.util.*;
+import java.util.Arrays;
 
 public class LC621TaskScheduler {
-    public int leastInterval(char[] tasks, int n) {
-        int[] counts = new int[26];
-        for (int i = 0; i < tasks.length; i++) {
-            counts[tasks[i] - 'A']++;
-        }
-        PriorityQueue<int[]> pq = new PriorityQueue<>((int[] w1, int[] w2) -> {
-            return w2[1] - w1[1];
-        });
-        for (int i = 0; i < 26; i++) {
-            pq.add(new int[]{i, counts[i]});
-        }
-
-        Deque<int[]> stack = new ArrayDeque<>();
-        int res = 0;
-        while (pq.size() > 0) {
-            int[] firstTask = pq.poll();
-            res++;
-            firstTask[1]--;
-            if (firstTask[1] == 0) continue;
-            int nIdle = n;
-            stack.add(firstTask);
-            while (nIdle > 0) {
-                if (pq.size() > 0) {
-                    int[] next = pq.poll();
-                    next[1]--;
-                    if (next[1] > 0) stack.add(next);
-                }
-                res++;
-                nIdle--;
+    public static class Solution {
+        public int leastInterval(char[] tasks, int n) {
+            int[] map = new int[26];
+            for (char c : tasks)
+                map[c - 'A']++;
+            Arrays.sort(map);
+            int nBins = map[25] - 1, leaseIdleSlots = nBins * n;
+            for (int i = 24; i >= 0 && map[i] > 0; i--) {
+                // If there are server letters with the same max frequency,
+                // we just need maxFreq-1 items to fill the maxFreq-1 bins
+                leaseIdleSlots -= Math.min(map[i], nBins);
             }
-            while (stack.size() > 0) {
-                if (stack.peek()[1] > 0) {
-                    pq.add(stack.pop());
-                }
-            }
+            return leaseIdleSlots > 0 ? leaseIdleSlots + tasks.length : tasks.length;
         }
-        return res;
-
     }
 }

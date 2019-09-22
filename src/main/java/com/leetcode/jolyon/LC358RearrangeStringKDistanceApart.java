@@ -31,11 +31,12 @@ public class LC358RearrangeStringKDistanceApart {
             int slotNum = k - 1;
             if (first[1] > 0) stack.add(first);
             while (slotNum > 0) {
-                if (pq.size() == 0) {
-                    if (stack.size() > 0) return "";
-                    break;
-                }
-                ;
+                if (pq.size() == 0){
+                    if(stack.size()>0)  return "";
+                    else{
+                        return sb.toString();
+                    }
+                };
                 int[] next = pq.poll();
                 next[1]--;
                 sb.append((char) (next[0] + 'a'));

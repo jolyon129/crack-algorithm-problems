@@ -2,6 +2,7 @@ package com.leetcode.jolyon;
 
 public class MorrisTraversal {
 
+    // The time complexity is up to O(2n) time with constant space.
     public void inorder(Node root) {
         Node current = root;
         while (current != null) {
@@ -10,7 +11,7 @@ public class MorrisTraversal {
                 System.out.print(current.val + " ");
                 current = current.right;
             } else {
-                //find the predecessor.
+                //find the predecessor of the current in the left tree.
                 Node predecessor = current.left;
                 //To find predecessor keep going right till right node is not null or right node is not current.
                 while (predecessor.right != current && predecessor.right != null) {

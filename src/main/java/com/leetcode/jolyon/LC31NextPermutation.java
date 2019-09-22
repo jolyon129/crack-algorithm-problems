@@ -2,32 +2,35 @@ package com.leetcode.jolyon;
 
 public class LC31NextPermutation {
     public void nextPermutation(int[] nums) {
-        if(nums.length==1) return;
-        int idx1= nums.length-2;
-        for(;idx1>=0;idx1--){
-            if(nums[idx1]<nums[idx1+1]) break;
+        if (nums.length < 2) return;
+        int N = nums.length;
+        int i1 = N - 2;
+        while (i1 >= 0 && nums[i1] >= nums[i1 + 1]) {
+            i1--;
         }
-        if(idx1!=-1){
-            int idx2 = idx1+1;
-            for(;idx2<nums.length;idx2++){
-                if(idx2==nums.length-1||(nums[idx2+1]<=nums[idx1]&&nums[idx2]>nums[idx1])){
-                    swap(idx1,idx2,nums);
-                    break;
-                }
+        if (i1 == -1) {
+            for (int i = 0, j = N - 1; i <= j; i++, j--) {
+                swap(nums, i, j);
             }
-        }
-        int left = idx1+1;
-        int right = nums.length-1;
-        while(left<right){
-            swap(left,right,nums);
-            left++;
-            right--;
+        } else {
+            int i2 = N - 1;
+            while (i2 >= 0 && nums[i2] <= nums[i1]) {
+                i2--;
+            }
+
+            swap(nums, i1, i2);
+            for (int i = i1 + 1, j = N - 1; i <= j; i++, j--) {
+                swap(nums, i, j);
+            }
+
         }
 
     }
-    private void swap(int i, int j, int[] nums){
+
+    private void swap(int[] nums, int i, int j) {
         int tmp = nums[i];
-        nums[i] =nums[j];
+        nums[i] = nums[j];
         nums[j] = tmp;
     }
+
 }

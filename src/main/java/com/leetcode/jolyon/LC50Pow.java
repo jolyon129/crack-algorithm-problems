@@ -37,15 +37,18 @@ public class LC50Pow {
                 N = -N;
             }
             double ans = 1;
-            double current_product = x;
+            double base = x;
             long i = N;
             while (i > 0) {
                 // In the end, i equal to 1;
+                // When the LSB is 1, we need to multiple the 
+                // base, we are trying to make the i can be 
+                // divided by 2.
                 if ((i % 2) == 1) {
-                    ans = ans * current_product;
+                    ans = ans * base;
                     i = i - 1;
                 }
-                current_product = current_product * current_product;
+                base = base * base;
                 i = i >> 1;
             }
             return ans;

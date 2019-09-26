@@ -22,7 +22,7 @@ public class Trie {
             }
             node = node.links[child];
         }
-        node.mark = true;
+        node.isAWord = true;
     }
 
     /**
@@ -36,7 +36,7 @@ public class Trie {
                 return false;
             }
             node = node.links[child];
-            if (i == word.length() - 1 && node.mark) {
+            if (i == word.length() - 1 && node.isAWord) {
                 return true;
             }
         }
@@ -61,12 +61,12 @@ public class Trie {
     class TrieNode {
         TrieNode[] links;
         int value;
-        boolean mark;
+        boolean isAWord;
 
         TrieNode(int value) {
             links = new TrieNode[26];
             this.value = value;
-            this.mark = false;
+            this.isAWord = false;
         }
 
     }

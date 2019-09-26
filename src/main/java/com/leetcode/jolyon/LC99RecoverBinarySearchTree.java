@@ -41,7 +41,7 @@ public class LC99RecoverBinarySearchTree {
                 // break link predecessor.right = root
                 // link is broken : time to change subtree and go right
                 else {
-                    // check for the swapped nodes
+                    // simulate for the swapped nodes
                     if (pred != null && root.val < pred.val) {
                         y = root;
                         if (x == null) x = pred;
@@ -55,7 +55,7 @@ public class LC99RecoverBinarySearchTree {
             // If there is no left child
             // then just go right.
             else {
-                // check for the swapped nodes
+                // simulate for the swapped nodes
                 if (pred != null && root.val < pred.val) {
                     y = root;
                     if (x == null) x = pred;

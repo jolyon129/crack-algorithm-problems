@@ -42,7 +42,7 @@ public class LC1000MinimumCosttoMergeStones {
         else {
             if (piles == 1) {
                 int mergeK = getResult(prefixSum, left, right, K);
-                //The idea of MAX is to mark the invalid state. If we don't check, the res may be negative, cause Integer.MAX_VALUE + 1 = Integer.MIN_VALUE.
+                //The idea of MAX is to isAWord the invalid state. If we don't simulate, the res may be negative, cause Integer.MAX_VALUE + 1 = Integer.MIN_VALUE.
                 if (mergeK != max) {
                     res = mergeK + prefixSum[right] - prefixSum[left - 1];
                 }

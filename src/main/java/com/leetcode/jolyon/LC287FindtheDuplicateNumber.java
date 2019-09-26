@@ -11,7 +11,7 @@ public class LC287FindtheDuplicateNumber {
         slow=0;
         int check=slow;
         while(slow!=fast){
-            // check = slow;
+            // simulate = slow;
             slow = nums[slow];
             fast = nums[fast];
         }

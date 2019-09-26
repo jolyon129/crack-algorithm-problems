@@ -73,7 +73,7 @@ public class LC301RemoveInvalidParentheses {
                 int rightRem,
                 StringBuilder expression) {
 
-            // If we reached the end of the string, just check if the resulting expression is
+            // If we reached the end of the string, just simulate if the resulting expression is
             // valid or not and also if we have removed the total number of left and right
             // parentheses that we should have removed.
             if (index == s.length()) {

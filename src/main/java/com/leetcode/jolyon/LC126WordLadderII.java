@@ -36,7 +36,7 @@ public class LC126WordLadderII {
         boolean done = false;
         HashSet<String> next_set = new HashSet<>();
         /**
-         * Must check visited items here!!!!!!!
+         * Must simulate visited items here!!!!!!!
          * I DONT KNOW WHY !!!
          * Add all the items in our queue to visted!
          * */

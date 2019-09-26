@@ -74,7 +74,7 @@ public class LC317ShortestDistancefromAllBuildings {
                     if (newR >= 0 && newR < grid.length && newC >= 0 && newC < grid[0].length
                             && !visited[newR][newC]) {
                         /**
-                         * IMPORTANT!!! We must mark it as visited
+                         * IMPORTANT!!! We must isAWord it as visited
                          * immediately!!!!!!!
                          */
                         visited[newR][newC] = true;

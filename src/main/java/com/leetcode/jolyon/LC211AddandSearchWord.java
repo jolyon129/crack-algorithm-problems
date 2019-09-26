@@ -30,10 +30,10 @@ public class LC211AddandSearchWord {
 
         private boolean recur(String word, int idx, Trie.TrieNode node){
             if(node==null) return false;
-            if(idx==word.length()-1&&node.mark){
+            if(idx==word.length()-1&&node.isAWord){
                 return true;
             }
-            if(idx==word.length()-1&&!node.mark){
+            if(idx==word.length()-1&&!node.isAWord){
                 return false;
             }
             if(word.charAt(idx+1)!='.'){

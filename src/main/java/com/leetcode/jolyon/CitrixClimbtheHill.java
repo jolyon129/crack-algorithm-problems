@@ -1,7 +1,7 @@
 package com.leetcode.jolyon;
 
 public class CitrixClimbtheHill {
-    int climbTheHill(int[] steps) {
+    int climbTheHillWrong(int[] steps) {
         if (steps.length == 1) return 0;
         int cost1 = 0;
         int cost2 = 0;

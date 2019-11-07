@@ -35,7 +35,6 @@ public class LC94BinaryTreeInorderTraversal {
             }
             return res;
         }
-
         public List<Integer> inorderTraversalMorris(TreeNode root) {
             List<Integer> res = new ArrayList<>();
             TreeNode cur = root;
@@ -44,15 +43,21 @@ public class LC94BinaryTreeInorderTraversal {
                     res.add(cur.val);
                     cur = cur.right;
                 } else {
+                    //In current's left subtree, make current node, the right
+                    // child of the rightmost node of the subtree
                     TreeNode pre = cur.left;
                     while (pre.right != null && pre.right != cur) {
                         pre = pre.right;
                     }
                     if (pre.right != cur) {
+                        // make current node, the right child of the
+                        // rightmost node of the subtree
                         pre.right = cur;
                         cur = cur.left;
                     } else {
                         // If programm runs into here, it means that we have already visited the left subtree of the current node
+                        // Then visit the current node, ignore the left
+                        // subtree and  go right.
                         res.add(cur.val);
                         pre.right = null;
                         cur = cur.right;

@@ -13,7 +13,6 @@ public class LC1192CriticalConnectionsinaNetwork {
             // use adjacency list instead of matrix will save some memory, adjmatrix will cause MLE
             List<Integer>[] graph = new ArrayList[n];
             List<List<Integer>> res = new ArrayList<>();
-            Arrays.fill(disc, -1); // use disc to track if visited (disc[i] == -1)
             for (int i = 0; i < n; i++) {
                 graph[i] = new ArrayList<>();
 
@@ -25,10 +24,10 @@ public class LC1192CriticalConnectionsinaNetwork {
                 graph[to].add(from);
             }
             // A serious pitfall!!
-            // We must call dfs on each node! Otherwise we will miss the
+            // We must call backtrack on each node! Otherwise we will miss the
             // special case of the staring node!
             for (int i = 0; i < n; i++) {
-                if (disc[i] == -1) {
+                if (disc[i] == 0) {
                     dfs(i, low, disc, graph, res, 0);
                 }
             }
@@ -50,22 +49,17 @@ public class LC1192CriticalConnectionsinaNetwork {
         private void dfs(int u, int[] low, int[] disc, List<Integer>[] graph, List<List<Integer>> res, int pre) {
             disc[u] = low[u] = ++time; // discover u
             for (int j = 0; j < graph[u].size(); j++) {
-                int v = graph[u].get(j);
-                if (v == pre) {
+                int nei = graph[u].get(j);
+                if (nei == pre) {
                     continue; // if parent vertex, ignore
                 }
-                if (disc[v] == -1) { // if not discovered
-                    dfs(v, low, disc, graph, res, u);
-                    low[u] = Math.min(low[u], low[v]);
-                    if (low[v] > disc[u]) {
-                        // u - v is critical, there is no path for v to reach back to u or previous vertices of u
-                        res.add(Arrays.asList(u, v));
-                    }
-                } else {
-                    // if v discovered and is not parent of u, update low[u], cannot use low[v] because u is not subtree of v
-                    // This case only happens in directed graph, when there
-                    // are forward edges in dfs tree
-                    low[u] = Math.min(low[u], disc[v]);
+                if (disc[nei] == 0) { // if not discovered
+                    dfs(nei, low, disc, graph, res, u);
+                }
+                low[u] = Math.min(low[u], low[nei]);
+                if (low[nei] > disc[u]) {
+                    // u - nei is critical, there is no path for nei to reach back to u or previous vertices of u
+                    res.add(Arrays.asList(u, nei));
                 }
             }
         }

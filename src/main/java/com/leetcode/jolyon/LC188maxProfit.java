@@ -26,7 +26,7 @@ public class LC188maxProfit {
                 sell = Math.max(sell, dp[t-1][i-1])+diff;
                 dp[t][i] = Math.max(sell, dp[t][i-1]);
             }
-            
+
         }
         return dp[k][prices.length-1];
     }

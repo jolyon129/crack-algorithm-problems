@@ -2,31 +2,38 @@ package com.leetcode.jolyon;
 
 public class LC117PopulatingNextRightPointers {
     public Node connect(Node root) {
-        Node parent = root;
-        Node child = null, childHead=null;
-        while (parent!=null){
-            while (parent!=null){
-                if(parent.left!=null){
-                    if(childHead!=null){
-                        child.next = parent.left;
+        Node parentHead = root;
+        Node current = null, currentHead=null;
+        while (parentHead!=null){
+            // Move parent pointer on the current parent level
+            Node parentPointer = parentHead;
+            while (parentPointer!=null){
+                if(parentPointer.left!=null){
+                    if(currentHead!=null){
+                        current.next = parentPointer.left;
+                        current = current.next;
                     }else{
-                        childHead = parent.left;
+                        currentHead = parentPointer.left;
+                        current = currentHead;
                     }
-                    child =  parent.left;
                 }
-                if(parent.right!=null){
-                    if(childHead!=null){
-                        child.next = parent.right;
+                // Try to connect parentPointer.right
+                if(parentPointer.right!=null){
+                    if(currentHead!=null){
+                        current.next = parentPointer.right;
+                        current = current.next;
                     }else{
-                        childHead = parent.right;
+                        currentHead = parentPointer.right;
+                        current = currentHead;
                     }
-                    child =  parent.right;
                 }
-                parent = parent.next;
+                parentPointer = parentPointer.next;
             }
-            parent = childHead;
-            child = null;
-            childHead = null;
+            // Move parent to the next level
+            parentHead = currentHead;
+            // clear up
+            current = null;
+            currentHead = null;
         }
         return root;
     }

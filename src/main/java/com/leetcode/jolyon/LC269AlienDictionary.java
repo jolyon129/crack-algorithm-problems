@@ -1,6 +1,7 @@
 package com.leetcode.jolyon;
 
 public class LC269AlienDictionary {
+    boolean hasCycle = false;
     public String alienOrder(String[] words) {
         Boolean[][] adjMatrix = new Boolean[26][26];
         for (int i = 0; i < 26; i++) {
@@ -28,33 +29,30 @@ public class LC269AlienDictionary {
         }
         for (int i = 0; i < 26; i++) {
             if (visited[i] == -1) {
-                if (!dfs(adjMatrix, sb, i, visited)) {
-                    return "";
-                }
+                dfs(adjMatrix, sb, i, visited);
+                if(hasCycle) return "";
             }
         }
         return sb.reverse().toString();
     }
 
-    private boolean dfs(Boolean[][] adjMatrix, StringBuilder sb, int x,
-                        int[] visited) {
+    private void dfs(Boolean[][] adjMatrix, StringBuilder sb, int x,
+                     int[] visited) {
 
         visited[x] = 1;// Is visiting
         for (int i = 0; i < adjMatrix[x].length; i++) {
             if (adjMatrix[x][i]) {
-                if (visited[i] == 1) {
-                    return false;
+                if(visited[i]==1){
+                    hasCycle = true;
                 }
                 if (visited[i] == -1) {
-                    if (!dfs(adjMatrix, sb, i, visited)) {
-                        return false;
-                    }
+                    dfs(adjMatrix, sb, i, visited);
                 }
-
             }
+
         }
+
         visited[x] = 2; // Finish visiting
         sb.append((char) (x + 'a'));
-        return true;
     }
 }

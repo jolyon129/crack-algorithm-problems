@@ -1,69 +1,71 @@
 package com.leetcode.jolyon;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 public class LC957PrisonCellsAfterNDays {
     /**
      * The optimal solution
      */
+
+    /**
+     * That's purely because we will NEVER ALWAYS reach the same state as on!
+     *
+     * A very good question indeed.
+     * The explanation below is entirely based on the solution provided in this comment.
+     * To understand why we did not set the initial state into the set before the loop, let's assume we were supposed to perform N=23 operations.
+     *
+     * After performing operation number 1, it reaches a state say X. We store this state in set.
+     * Assume, after performing 6th operation it again reaches state X . So we now know that the it takes (6-1) = 5 operations to attain the same state X, which in turn means , after every 5 operations, it would reach the same state.
+     * Now, that we know 5 is the cycle count, we need perform 13 % 5 = 3 operations more. ( NOTE : We did not update the cells to next when we found the cycle on the 6th operation. So we need to perform the sixth operation again. )
+     * In the final go, we perform just 3 more operations to complete the whole cycle.
+     * Hope this helps :)
+     */
     static class Solution {
         public int[] prisonAfterNDays(int[] cells, int N) {
-            Set<Integer> seen = new HashSet<>();
-            int[] current =cells;
-            int steps = 0;
-            seen.add(toInt(cells));
+            if(cells==null || cells.length==0 || N<=0) return cells;
             boolean hasCycle = false;
-            for(int n=0;n<N;n++){
-                current = nextDay(current);
-                steps++;
-                if(seen.contains(toInt(current))){
+            int lengthOfCycle = 0;
+            // We will not always hit Day Zero  twice, especially when the last
+            // cell is 1 on day Zero. So our cycle starts on Day One instead
+            // of Day Zero!
+            HashSet<String> set = new HashSet<>();
+            for(int i=0;i<N;i++){
+                int[] next = nextDay(cells);
+                String key = Arrays.toString(next);
+                if(!set.contains(key)){ //store cell state
+                    set.add(key);
+                    lengthOfCycle++;
+                }
+                else{ //hit a cycle
                     hasCycle = true;
                     break;
                 }
-                seen.add(toInt(current));
+                // IMPORTANT!
+                cells = next;
             }
-            if(!hasCycle){
-                return current;
-            }else{
-                int startofCycle = toInt(current);
-                int count = 1;
-                int[] start =nextDay(current);
-                while(toInt(start)!=startofCycle){
-                    count ++;
-                    start = nextDay(start);
+            if(hasCycle){
+                N%=lengthOfCycle;
+                for(int i=0;i<N;i++){
+                    cells = nextDay(cells);
                 }
-                int anotherSteps = (N-(steps-count)) % count;
-                start = current;
-                while(anotherSteps>0){
-                    start = nextDay(start);
-                    anotherSteps --;
-                }
-                return start;
             }
+            return cells;
         }
+
         private int[] nextDay(int[] cells){
-            int[] next = new int[cells.length];
+            int[] tmp = new int[cells.length];
             for(int i=1;i<cells.length-1;i++){
-                next[i] = cells[i-1]==cells[i+1]?1:0;
+                tmp[i]=cells[i-1]==cells[i+1]?1:0;
             }
-            next[0]=0;
-            next[cells.length-1]=0;
-            return next;
-        }
-        private int toInt(int[] cells){
-            int nums = 0;
-            for(int t:cells){
-                nums = nums*10+t;
-            }
-            return nums;
+            return tmp;
         }
     }
+
     /**
-     * This is not optimal solution
-     * The days N is within (1,10^9)
+     * This is not optimal solution The days N is within (1,10^9)
      */
     static class Solution1 {
         public int[] prisonAfterNDays(int[] cells, int N) {
@@ -82,9 +84,9 @@ public class LC957PrisonCellsAfterNDays {
             return curr;
         }
     }
+
     /**
-     * This is not optimal solution
-     * The days N is within (1,10^9)
+     * This is not optimal solution The days N is within (1,10^9)
      */
     static class Solution2 {
         public int[] prisonAfterNDays(int[] cells, int N) {
@@ -99,7 +101,7 @@ public class LC957PrisonCellsAfterNDays {
                     next = seen.get(current);
                 } else {
                     next = next(current);
-                    seen.put(current,next);
+                    seen.put(current, next);
                 }
                 current = next;
             }

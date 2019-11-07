@@ -10,7 +10,7 @@ public class LC55JumpGame {
         idx = nums.length - 2;
         while (idx >= 0) {
             if (nums[idx] == 0) {
-                if(!checkPrevious(idx, nums)){
+                if(!checkPrevious(nums)){
                     return false;
                 }
             }
@@ -19,13 +19,10 @@ public class LC55JumpGame {
         return true;
     }
 
-    private boolean checkPrevious(int i, int[] nums) {
-        int t = i - 1;
-        if(t<0){
-            return false;
-        }
+    private boolean checkPrevious(int[] nums) {
+        int t = idx - 1;
         while (t>=0){
-            if (nums[t] > i-t) {
+            if (nums[t] > idx-t) {
                 idx = t;
                 return true;
             }

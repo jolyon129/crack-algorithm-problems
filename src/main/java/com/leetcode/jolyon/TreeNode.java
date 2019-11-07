@@ -1,12 +1,11 @@
 package com.leetcode.jolyon;
 
 public class TreeNode {
-    int val;
-    TreeNode left;
-    TreeNode right;
-    TreeNode[] children;
-
-    TreeNode(int x) {
+    public int val;
+    public TreeNode left;
+    public TreeNode right;
+    public TreeNode[] children;
+    public TreeNode(int x) {
         val = x;
     }
 }

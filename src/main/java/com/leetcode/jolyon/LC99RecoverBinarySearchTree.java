@@ -1,45 +1,53 @@
 package com.leetcode.jolyon;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.Stack;
 
 /**
  * Hard!
  */
 public class LC99RecoverBinarySearchTree {
-    public void swap(TreeNode a, TreeNode b) {
-        int tmp = a.val;
-        a.val = b.val;
-        b.val = tmp;
-    }
+    class SolutionMorris{
+        public void recoverTree(TreeNode root) {
+            // predecessor is a Morris predecessor.
+            // In the 'loop' cases it could be equal to the node itself predecessor == root.
+            // pred is a 'true' predecessor,
+            // the previous node in the inorder traversal.
+            TreeNode x = null, y = null, pred = null, predecessor = null;
 
-    public void recoverTree(TreeNode root) {
-        // predecessor is a Morris predecessor.
-        // In the 'loop' cases it could be equal to the node itself predecessor == root.
-        // pred is a 'true' predecessor,
-        // the previous node in the inorder traversal.
-        TreeNode x = null, y = null, pred = null, predecessor = null;
+            while (root != null) {
+                // If there is a left child, try to build the thread, then go left.
+                // If not, try to build the thread.
+                if (root.left != null) {
+                    //In current's left subtree, make current node, the right
+                    // child of the rightmost node of the left subtree
+                    predecessor = root.left;
+                    while (predecessor.right != null && predecessor.right != root){
+                        predecessor = predecessor.right;
+                    }
 
-        while (root != null) {
-            // If there is a left child
-            // then compute the predecessor.
-            // If there is no link predecessor.right = root --> set it.
-            // If there is a link predecessor.right = root --> break it.
-            if (root.left != null) {
-                // Predecessor node is one step left
-                // and then right till you can.
-                predecessor = root.left;
-                while (predecessor.right != null && predecessor.right != root)
-                    predecessor = predecessor.right;
+                    // set link predecessor.right = root
+                    // and go to explore left subtree
+                    if (predecessor.right == null) {
+                        predecessor.right = root;
+                        root = root.left;
+                    }
+                    else {
+                        // break link predecessor.right = root
+                        // link is broken : time to change subtree and go right
 
-                // set link predecessor.right = root
-                // and go to explore left subtree
-                if (predecessor.right == null) {
-                    predecessor.right = root;
-                    root = root.left;
+                        // simulate for the swapped nodes
+                        if (pred != null && root.val < pred.val) {
+                            y = root;
+                            if (x == null) x = pred;
+                        }
+                        pred = root;
+
+                        predecessor.right = null;
+                        root = root.right;
+                    }
                 }
-                // break link predecessor.right = root
-                // link is broken : time to change subtree and go right
+                // If there is no left child
+                // then just go right.
                 else {
                     // simulate for the swapped nodes
                     if (pred != null && root.val < pred.val) {
@@ -48,45 +56,51 @@ public class LC99RecoverBinarySearchTree {
                     }
                     pred = root;
 
-                    predecessor.right = null;
                     root = root.right;
                 }
             }
-            // If there is no left child
-            // then just go right.
-            else {
-                // simulate for the swapped nodes
-                if (pred != null && root.val < pred.val) {
-                    y = root;
-                    if (x == null) x = pred;
+            swap(x, y);
+        }
+
+    }
+    class SolutionIterativeInOrder{
+        // In-order
+        public void recoverTree(TreeNode node) {
+            Stack<TreeNode> stack = new Stack<>();
+            TreeNode x = null, y = null, prev = null;
+            while (!stack.isEmpty() || node != null) {
+                while (node != null) {
+                    stack.add(node);
+                    node = node.left;
                 }
-                pred = root;
+                node = stack.pop();
+                if (prev != null && node.val < prev.val) {
+                    // The first time we met a mismatched situation, the
+                    // target is the prev node, while the second time should
+                    // be the current node
+                    // Always assign the current node to y
 
-                root = root.right;
+                    // This can handle the situation when there two swapped
+                    // elements are consecutive
+                    y = node;
+                    // If haven't found the first number
+                    if (x == null) x = prev;
+                        // else y = cur which has already be done.
+                    else break;
+                }
+                prev = node;
+                node = node.right;
             }
+
+            swap(x, y);
         }
-        swap(x, y);
+    }
+    public void swap(TreeNode a, TreeNode b) {
+        int tmp = a.val;
+        a.val = b.val;
+        b.val = tmp;
     }
 
-    public void recoverTreeIterative(TreeNode root) {
-        Deque<TreeNode> stack = new ArrayDeque();
-        TreeNode x = null, y = null, pred = null;
 
-        while (!stack.isEmpty() || root != null) {
-            while (root != null) {
-                stack.add(root);
-                root = root.left;
-            }
-            root = stack.removeLast();
-            if (pred != null && root.val < pred.val) {
-                y = root;
-                if (x == null) x = pred;
-                else break;
-            }
-            pred = root;
-            root = root.right;
-        }
 
-        swap(x, y);
-    }
 }

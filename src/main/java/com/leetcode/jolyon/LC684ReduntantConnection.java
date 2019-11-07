@@ -13,18 +13,18 @@ public class LC684ReduntantConnection{
     }
 
     class DSU {
-        int[] disjoint_sets;
+        int[] parents;
         int[] ranks;
 
         public DSU(int size) {
-            disjoint_sets = new int[size];
-            for (int i = 0; i < size; i++) disjoint_sets[i] = i;
+            parents = new int[size];
+            for (int i = 0; i < size; i++) parents[i] = i;
             ranks = new int[size];
         }
 
         public int find(int x) {
-            if (disjoint_sets[x] != x) disjoint_sets[x] = find(disjoint_sets[x]);
-            return disjoint_sets[x];
+            if (parents[x] != x) parents[x] = find(parents[x]);
+            return parents[x];
         }
 
         public boolean union(int x, int y) {
@@ -33,11 +33,10 @@ public class LC684ReduntantConnection{
                 return false;
             }
             if (ranks[xr] < ranks[yr]) {
-                disjoint_sets[xr] = yr;
+                parents[xr] = yr;
             } else{
-                disjoint_sets[yr] = xr;
+                parents[yr] = xr;
                 if(ranks[x]== ranks[y]){
-                    disjoint_sets[yr] = xr;
                     ranks[xr]++;
                 }
             }

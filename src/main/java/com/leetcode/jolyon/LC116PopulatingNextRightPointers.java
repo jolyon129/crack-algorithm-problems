@@ -6,11 +6,11 @@ public class LC116PopulatingNextRightPointers {
             Node head = root;
             if (root == null) return root;
             while (root != null && root.left != null) {
-                Node cur = root;
-                while (cur  != null) {
-                    cur.left.next = cur.right;
-                    cur.right.next = cur.next == null ? null : cur.next.left;
-                    cur = cur.next;
+                Node parentHead = root;
+                while (parentHead  != null) {
+                    parentHead.left.next = parentHead.right;
+                    parentHead.right.next = parentHead.next == null ? null : parentHead.next.left;
+                    parentHead = parentHead.next;
                 }
                 root = root.left;
             }

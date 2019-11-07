@@ -4,26 +4,26 @@ import java.util.*;
 
 public class LC103BinaryTreeZigzagLevelOrderTraversal {
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
-        Deque<TreeNode> queue = new ArrayDeque<>();
+        int levelNum = 0;
+        Queue<TreeNode> queue = new LinkedList<>();
         List<List<Integer>> res = new ArrayList<>();
-        if(root ==null) return res;
+        if (root == null) return res;
         queue.add(root);
-        int level= 0;
-        while(queue.size()!=0){
-            level++;
-            int len = queue.size();
-            List<Integer> levelList = new ArrayList<>();
-            for(int i=0;i<len;i++){
-                TreeNode node = queue.pollFirst();
-                if(node.left!=null) queue.offerLast(node.left);
-                if(node.right!=null) queue.offerLast(node.right);
-                levelList.add(node.val);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            List<Integer> level = new ArrayList<>();
+            while (size > 0) {
+                TreeNode node = queue.poll();
+                level.add(node.val);
+                if (node.left != null) queue.offer(node.left);
+                if (node.right != null) queue.offer(node.right);
+                size--;
             }
-            if(level%2==0){
-                Collections.reverse(levelList);
+            if (levelNum % 2 == 1) {
+                Collections.reverse(level);
             }
-            res.add(levelList);
-
+            res.add(level);
+            levelNum++;
         }
         return res;
     }

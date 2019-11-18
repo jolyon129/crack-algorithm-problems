@@ -1,4 +1,4 @@
-package com.leetcode.jolyon;
+package com.leetcode.jolyon.amazon;
 
 public class LC50Pow {
     static class RecurSolution {
@@ -30,6 +30,12 @@ public class LC50Pow {
     }
 
     static class IterativeSolution {
+        /**
+         *  Write
+         * @param x
+         * @param n
+         * @return
+         */
         public double myPow(double x, int n) {
             long N = n;
             if (N < 0) {
@@ -37,17 +43,14 @@ public class LC50Pow {
                 N = -N;
             }
             double ans = 1;
-            double base = x;
+            double base = x; // x^(2^0)
             long i = N;
             while (i > 0) {
-                // In the end, i equal to 1;
-                // When the LSB is 1, we need to multiple the 
-                // base, we are trying to make the i can be 
-                // divided by 2.
-                if ((i % 2) == 1) {
+                // If the least significant bit is 1, multiple by the base.
+                if ((i & 1) == 1) {
                     ans = ans * base;
-                    i = i - 1;
                 }
+                // Keep the running base
                 base = base * base;
                 i = i >> 1;
             }

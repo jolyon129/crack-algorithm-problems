@@ -7,6 +7,7 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class LC23MergeKSortedLists {
+    // use priority queue
     public ListNode mergeKLists(ListNode[] lists) {
         int k = lists.length;
         Queue<ListNode> pq = new PriorityQueue<>(Comparator.comparingInt((ListNode w) -> w.val));
@@ -35,6 +36,7 @@ public class LC23MergeKSortedLists {
         if(N==0) return null;
         int interval = 1;
         while (interval < N) {
+            // Memorize this!!!
             for (int i = 0; i < N-interval; i += interval * 2) {
                 lists[i] = mergeTwoLists(lists[i], lists[i + interval]);
             }
@@ -44,8 +46,8 @@ public class LC23MergeKSortedLists {
     }
 
     ListNode mergeTwoLists(ListNode node1, ListNode node2) {
-        ListNode head = new ListNode(-1);
-        ListNode cur = head;
+        ListNode dummy = new ListNode(-1);
+        ListNode cur = dummy;
         while (node1 != null && node2 != null) {
             if(node1.val<node2.val){
                 cur.next = node1;
@@ -62,6 +64,6 @@ public class LC23MergeKSortedLists {
         if(node2!=null){
             cur.next = node2;
         }
-        return head.next;
+        return dummy.next;
     }
 }

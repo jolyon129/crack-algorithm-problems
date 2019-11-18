@@ -24,7 +24,9 @@ public class LC126WordLadderII {
             boolean foundEnd = false;
 
             while (!queue.isEmpty()) {
+                // Add all front elements into visited
                 visited.addAll(toVisit);
+                // Reset toVisit!
                 toVisit.clear();
                 int count = queue.size();
 
@@ -36,16 +38,26 @@ public class LC126WordLadderII {
                         if (!graph.containsKey(word)) {
                             graph.put(word, new ArrayList<String>());
                         }
+                        /**
+                         *  We need to print all possible shortest paths,
+                         *  that's to say, if two words in the same level
+                         *  ending up generating the same word, we need to
+                         *  make sure the edges include those two edge!
+                         */
                         if (!visited.contains(child)) {
                             graph.get(word).add(child);
                         }
+                        /**
+                         *  But we don't want our queue have duplicates words!
+                         */
                         if (!visited.contains(child) && !toVisit.contains(child)) {
                             queue.offer(child);
                             toVisit.add(child);
                         }
                     }
                 }
-
+                // If we found the target at the end of the current level, we
+                // finish building out graph
                 if (foundEnd) break;
             }
         }
@@ -73,12 +85,14 @@ public class LC126WordLadderII {
 
             if (curWord.equals(endWord))
                 result.add(new ArrayList<String>(path));
-            else if (graph.containsKey(curWord)) {
-                for (String nextWord : graph.get(curWord)) {
-                    dfs(nextWord, endWord, graph, path, result);
+            else {
+                if(graph.containsKey(curWord)){
+                    for (String nextWord : graph.get(curWord)) {
+                        dfs(nextWord, endWord, graph, path, result);
+                    }
                 }
             }
-
+            // backtracking!
             path.remove(path.size() - 1);
         }
     }

@@ -19,6 +19,7 @@ public class LC20ValidParentheses {
         brackets.put('[', ']');
         brackets.put('{', '}');
         for (int i = 0; i < s.length(); i++) {
+            // If the char is a closing brackets
             if (!brackets.containsKey(s.charAt(i))) {
                 if (stack.size() == 0) return false;
                 char ele = stack.pollLast();
@@ -27,6 +28,7 @@ public class LC20ValidParentheses {
                 stack.add(s.charAt(i));
             }
         }
+        // In the end, if the stack is not empty
         if (!stack.isEmpty()) {
             return false;
         }

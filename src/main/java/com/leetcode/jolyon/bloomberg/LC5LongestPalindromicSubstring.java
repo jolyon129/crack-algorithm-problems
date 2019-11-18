@@ -3,6 +3,7 @@ package com.leetcode.jolyon.bloomberg;
 public class LC5LongestPalindromicSubstring {
     int left = 0;
     int right = 0;
+
     // dp[i][j]= dp[i+1][j-1] && s[i]==s[j]
     public String longestPalindromeDp(String s) {
         if (s.equals("")) return "";
@@ -14,11 +15,8 @@ public class LC5LongestPalindromicSubstring {
             for (int j = i + 1; j < N; j++) {
                 if (s.charAt(i) == s.charAt(j)) {
                     if (i == j - 1) dp[i][j] = true;
-                    else {
-                        if (i + 1 < N && j - 1 > 0 && dp[i + 1][j - 1]) {
-                            dp[i][j] = true;
-
-                        }
+                    else if (i + 1 < N && j - 1 > 0 && dp[i + 1][j - 1]) {
+                        dp[i][j] = true;
                     }
                 }
                 // Keep tracking of the longest window

@@ -8,12 +8,14 @@ public class LC31NextPermutation {
         while (i1 >= 0 && nums[i1] >= nums[i1 + 1]) {
             i1--;
         }
+        // If `1,2,3,4`, no bigger permutation
         if (i1 == -1) {
             for (int i = 0, j = N - 1; i <= j; i++, j--) {
                 swap(nums, i, j);
             }
         } else {
             int i2 = N - 1;
+            // find the first element just greater than nums[i1]
             while (i2 >= 0 && nums[i2] <= nums[i1]) {
                 i2--;
             }

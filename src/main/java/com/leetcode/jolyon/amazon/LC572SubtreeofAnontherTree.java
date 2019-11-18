@@ -4,20 +4,19 @@ import com.leetcode.jolyon.TreeNode;
 
 public class LC572SubtreeofAnontherTree {
     public boolean isSubtree(TreeNode s, TreeNode t) {
-        int target = s.val;
-        return visit(t, target, s);
+        int target = t.val;
+        return dfs(s, target, t);
     }
 
-    private boolean visit(TreeNode node, int target, TreeNode subtree) {
+    private boolean dfs(TreeNode node, int target, TreeNode subtree) {
         if (node == null) return false;
-        boolean flag3 = false;
-        if (node.val == target) {
-            flag3 = check(node, subtree);
-            if(flag3) return true;
+        if (node.val == target && check(node, subtree)) {
+            // If equals false, we cannot return false directly!
+            return true;
         }
         boolean flag1, flag2;
-        flag1 = visit(node.left, target, subtree);
-        flag2 = visit(node.right, target, subtree);
+        flag1 = dfs(node.left, target, subtree);
+        flag2 = dfs(node.right, target, subtree);
         return flag1 || flag2;
 
     }

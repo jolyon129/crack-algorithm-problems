@@ -1,9 +1,16 @@
 package com.leetcode.jolyon;
 
 /**
- * LC188maxProfit
+ * LC188BestTimetoBuyandSellStockIV
  */
-public class LC188maxProfit {
+public class LC188BestTimetoBuyandSellStockIV {
+    /**
+     *
+     * dp[]
+     * @param k
+     * @param prices
+     * @return
+     */
     public int maxProfit(int k, int[] prices) {
         int sell;
         int diff;
@@ -11,14 +18,7 @@ public class LC188maxProfit {
             return quickSolve(k, prices);
         }
         int[][] dp = new int[k + 1][prices.length];
-        // Initialize
-        for (int i = 0; i < prices.length; i++) {
-            dp[0][i] = 0;
-        }
-        // Initialize
-        for (int i = 0; i < k+1; i++) {
-            dp[i][0] = 0;
-        }
+
         for(int t=1;t<k+1;t++){
             sell = 0;
             for(int i=1;i<prices.length;i++){

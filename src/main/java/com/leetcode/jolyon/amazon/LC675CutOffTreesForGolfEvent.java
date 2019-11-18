@@ -14,7 +14,10 @@ public class LC675CutOffTreesForGolfEvent {
                 }
             }
         }
-        Collections.sort(trees, Comparator.comparingInt((int[] w) -> forest.get(w[0]).get(w[1])));
+        trees.sort((w1, w2) -> {
+            return forest.get(w1[0]).get(w1[1]) - forest.get(w2[0]).get(w2[1]);
+        });
+
         int[] cur = new int[]{0, 0};
         int ans = 0;
         for (int[] tree : trees) {
@@ -34,12 +37,12 @@ public class LC675CutOffTreesForGolfEvent {
         int[][] visited = new int[N][M];
         Queue<int[]> queue = new LinkedList<>();
         queue.add(cur);
+        visited[cur[0]][cur[1]] = 1;
         int step = 0;
         while (!queue.isEmpty()) {
             int size = queue.size();
             while (size > 0) {
                 int[] tree = queue.poll();
-                visited[tree[0]][tree[1]] = 1;
                 if (tree[0] == target[0] && tree[1] == target[1]) {
                     return step;
                 }
@@ -47,6 +50,8 @@ public class LC675CutOffTreesForGolfEvent {
                     int[] next = new int[]{tree[0] + dr[i], tree[1] + dc[i]};
                     if (next[0] >= 0 && next[0] < N && next[1] >= 0 && next[1] < M
                             && visited[next[0]][next[1]] == 0 && forest.get(next[0]).get(next[1]) > 0) {
+                        // Add the node into visited at this place!!!
+                        visited[next[0]][next[1]] = 1;
                         queue.add(next);
                     }
                 }

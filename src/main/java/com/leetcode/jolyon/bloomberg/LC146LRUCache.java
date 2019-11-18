@@ -4,6 +4,11 @@ import java.util.Hashtable;
 
 public class LC146LRUCache {
     static class LRUCache {
+        private Hashtable<Integer, DLinkedNode> cache =
+                new Hashtable<Integer, DLinkedNode>();
+        private int size;
+        private int capacity;
+        private DLinkedNode head, tail;
 
         class DLinkedNode {
             int key;
@@ -11,54 +16,6 @@ public class LC146LRUCache {
             DLinkedNode prev;
             DLinkedNode next;
         }
-
-        private void addNode(DLinkedNode node) {
-            /**
-             * Always add the new node right after head.
-             */
-            node.prev = head;
-            node.next = head.next;
-
-            head.next.prev = node;
-            head.next = node;
-        }
-
-        private void removeNode(DLinkedNode node){
-            /**
-             * Remove an existing node from the linked list.
-             */
-            DLinkedNode prev = node.prev;
-            DLinkedNode next = node.next;
-
-            prev.next = next;
-            if(next!=null){
-                next.prev = prev;
-            }
-        }
-
-        private void moveToHead(DLinkedNode node){
-            /**
-             * Move certain node in between to the head.
-             */
-            removeNode(node);
-            addNode(node);
-        }
-
-        private DLinkedNode popTail() {
-            /**
-             * Pop the current tail.
-             */
-            DLinkedNode res = tail.prev;
-            removeNode(res);
-            return res;
-        }
-
-        private Hashtable<Integer, DLinkedNode> cache =
-                new Hashtable<Integer, DLinkedNode>();
-        private int size;
-        private int capacity;
-        private DLinkedNode head, tail;
-
         public LRUCache(int capacity) {
             this.size = 0;
             this.capacity = capacity;
@@ -72,13 +29,31 @@ public class LC146LRUCache {
             head.next = tail;
             tail.prev = head;
         }
+        // Insert to the tail
+        private void insert(DLinkedNode node){
+            DLinkedNode prev = tail.prev;
+            prev.next = node;
+            node.prev = prev;
+            node.next = tail;
+            tail.prev = node;
+        }
+
+        private void remove(DLinkedNode node){
+            DLinkedNode prev = node.prev;
+            DLinkedNode next = node.next;
+            next.prev = prev;
+            prev.next = next;
+        }
+
+
 
         public int get(int key) {
             DLinkedNode node = cache.get(key);
             if (node == null) return -1;
 
-            // move the accessed node to the head;
-            moveToHead(node);
+            // move the accessed node to the tail;
+            remove(node);
+            insert(node);
 
             return node.value;
         }
@@ -92,20 +67,19 @@ public class LC146LRUCache {
                 newNode.value = value;
 
                 cache.put(key, newNode);
-                addNode(newNode);
+                insert(newNode);
 
-                ++size;
-
-                if(size > capacity) {
-                    // pop the tail
-                    DLinkedNode tail = popTail();
-                    cache.remove(tail.key);
-                    --size;
+                if(cache.size() > capacity) {
+                    // remove the one after head
+                    // Remove from cache first!!
+                    cache.remove(head.next.key);
+                    remove(head.next);
                 }
             } else {
                 // update the value.
                 node.value = value;
-                moveToHead(node);
+                remove(node);
+                insert(node);
             }
         }
     }

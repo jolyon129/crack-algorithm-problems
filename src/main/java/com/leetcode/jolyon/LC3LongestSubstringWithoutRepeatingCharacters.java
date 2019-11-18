@@ -32,15 +32,17 @@ public class LC3LongestSubstringWithoutRepeatingCharacters {
 
     static class betterSolution {
         public int lengthOfLongestSubstring(String s) {
-            int n = s.length(), ans = 0;
-            Map<Character, Integer> map = new HashMap<>(); // current index of character
-            // try to extend the range [i, j]
-            for (int j = 0, i = 0; j < n; j++) {
-                if (map.containsKey(s.charAt(j))) {
-                    i = Math.max(map.get(s.charAt(j))+1, i);
+            // store the position where the char last occur.
+            Map<Character, Integer> charToIdx = new HashMap<>();
+            int left =-1;
+            int ans =0;
+            for(int i=0;i<s.length();i++){
+                char c = s.charAt(i);
+                if(charToIdx.containsKey(c)){
+                    left = Math.max(left,charToIdx.get(c));
                 }
-                ans = Math.max(ans, j - i + 1);
-                map.put(s.charAt(j), j);
+                charToIdx.put(c,i);
+                ans = Math.max(ans,i-left);
             }
             return ans;
         }

@@ -5,32 +5,25 @@ public class LC91DecodeWays {
         if (s.isEmpty() || s.charAt(0) - '0' == 0) {
             return 0;
         }
-
-        int[] waysToDecode = new int[s.length() + 1];
-        waysToDecode[0] = 1;
-        waysToDecode[1] = 1;
-        for (int i = 1; i < s.length(); i++) {
-            int curr = s.charAt(i) - '0';
-            int prev = s.charAt(i - 1) - '0';
-
-            // can't make progress, return 0
-            if (prev == 0 && curr == 0 || (curr == 0 && (prev * 10 + curr > 26))) {
-                return 0;
+        int[] dp = new int[s.length() + 1];
+        // IMPORTANT! If no input, we should return at least one.
+        dp[0]=1;
+        dp[1]=1;
+        for(int i=2;i<s.length()+1;i++){
+            int idx = i - 1;
+            char cur = s.charAt(idx);
+            char prev = s.charAt(idx - 1);
+            // "00"
+            if((prev-'0')*10+(cur-'0')==0) return 0;
+            // "11"
+            if(prev-'0'>0&&(prev-'0')*10+(cur-'0')<=26){
+                dp[i] += dp[i - 2];
             }
-            // can't use the previous value, so can only get to this state from the previous
-            else if (prev == 0 || (prev * 10 + curr) > 26) {
-                waysToDecode[i + 1] = waysToDecode[i];
-            }
-            // can't use current state, can only get to this state from i - 1 state
-            else if (curr == 0) {
-                waysToDecode[i + 1] = waysToDecode[i - 1];
-            }
-            // can get to this state from the previous two states
-            else {
-                waysToDecode[i + 1] = waysToDecode[i] + waysToDecode[i - 1];
+            // "10"
+            if(cur-'0'!=0){
+                dp[i] += dp[i - 1];
             }
         }
-
-        return waysToDecode[waysToDecode.length - 1];
+        return dp[s.length()];
     }
 }

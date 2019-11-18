@@ -10,19 +10,20 @@ public class LC22GenerateParentheses {
         return ret;
     }
 
-    private void generate(List<String> ret, char[] str, int left, int right, int max, int i) {
+    private void generate(List<String> result, char[] curPath, int left, int right,
+                          int max, int idx) {
         if (left == max && right == left) {
-            ret.add(String.valueOf(str));
+            result.add(String.valueOf(curPath));
             return;
         }
-
+        
         if (left < max) {
-            str[i] = '(';
-            generate(ret, str, left + 1, right, max, i + 1);
+            curPath[idx] = '(';
+            generate(result, curPath, left + 1, right, max, idx + 1);
         }
         if (right < left) {
-            str[i] = ')';
-            generate(ret, str, left, right + 1, max, i + 1);
+            curPath[idx] = ')';
+            generate(result, curPath, left, right + 1, max, idx + 1);
         }
     }
 }

@@ -1,5 +1,8 @@
 package com.leetcode.jolyon;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Node {
     public int val;
     public Node left;
@@ -8,10 +11,11 @@ public class Node {
     public Node random;
     public Node child;
     public Node prev;
+    public List<Node> neighbors;
 
     public Node(int val, Node o, Node o1) {}
 
-    public Node(int val) {
+    public Node(int val, ArrayList arrayList) {
 
         this.val = val;
     }

@@ -1,10 +1,47 @@
-package com.leetcode.jolyon;
+package com.leetcode.jolyon.amazon;
 
 import java.util.Arrays;
+import java.util.Stack;
 
 public class LC85MaximalRectangle {
-    
     public int maximalRectangle(char[][] matrix) {
+        int ans = 0;
+        if(matrix.length==0) return 0;
+        int[] heights = new int[matrix[0].length];
+        for(int i=0;i<matrix.length;i++){
+            for(int j=0;j<matrix[0].length;j++){
+                if(matrix[i][j]=='0') heights[j]=0;
+                else {
+                    heights[j] = heights[j] + 1;
+                }
+            }
+            ans = Math.max(ans, maxRectangleFromHistograms(heights));
+        }
+        return ans;
+    }
+    private int maxRectangleFromHistograms(int[] heights){
+        Stack<Integer> stack = new Stack<>();
+        int maxarea = 0;
+        for (int i = 0; i < heights.length; ++i) {
+            while (!stack.isEmpty() && heights[stack.peek()] > heights[i]) {
+                int height = heights[stack.pop()];
+                // IMPORTANT! Use the position of next smaller element as the
+                // left side!
+                int width = stack.isEmpty() ? i : i - stack.peek() - 1;
+                maxarea = Math.max(maxarea, height * width);
+            }
+            stack.push(i);
+        }
+        while (!stack.isEmpty()) {
+            int height = heights[stack.pop()];
+            int width = stack.isEmpty() ? heights.length :
+                    heights.length - stack.peek() - 1;
+            maxarea = Math.max(maxarea, height * width);
+        }
+        return maxarea;
+    }
+
+    public int maximalRectangle2(char[][] matrix) {
         if(matrix.length==0) return 0;
         int max_area = 0;
         int[] height = new int[matrix[0].length];

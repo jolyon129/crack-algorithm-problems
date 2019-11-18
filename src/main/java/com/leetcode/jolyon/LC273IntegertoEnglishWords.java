@@ -5,42 +5,45 @@ import java.util.Map;
 
 public class LC273IntegertoEnglishWords {
     static class Solution {
-        private final String[] LESS_THAN_20 = {"", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"};
+        private final String[] LESS_THAN_20 = {"", "One", "Two", "Three", "Four",
+                "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve",
+                "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"};
         private final String[] TENS = {"", "Ten", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"};
         private final String[] SUFFIX = {"", "Thousand", "Million", "Billion"};
 
         public String numberToWords(int num) {
 
-            if(num==0) return "Zero";
+            if (num == 0) return "Zero";
 
-            String ret="";
-            int i=0;
+            String ret = "";
+            int i = 0;
 
-            while(num>0){
-                if(num%1000!=0){
-                    ret = helper(num%1000) + SUFFIX[i] + " " + ret;
+            while (num > 0) {
+                if (num % 1000 != 0) {
+                    ret = helper(num % 1000) + SUFFIX[i] + " " + ret;
                 }
                 i++;
-                num=num/1000;
+                num = num / 1000;
             }
 
             return ret.trim();
         }
 
-        private String helper(int num){
-            if(num==0){
+        private String helper(int num) {
+            if (num == 0) {
                 return "";
-            }else if(num<20){
+            } else if (num < 20) {
                 return LESS_THAN_20[num] + " ";
-            } else if(num<100){
-                return TENS[num/10] + " " + helper(num%10);
-            } else{
-                return LESS_THAN_20[num/100] + " Hundred " + helper(num%100);
+            } else if (num < 100) {
+                return TENS[num / 10] + " " + helper(num % 10);
+            } else {
+                return LESS_THAN_20[num / 100] + " Hundred " + helper(num % 100);
             }
         }
 
     }
-    static class ClearSolution{
+
+    static class ClearSolution {
         private static final Map<Integer, String> map = new HashMap<>();
         private static final int BILLION = 1_000_000_000;
         private static final int MILLION = 1_000_000;
@@ -55,11 +58,11 @@ public class LC273IntegertoEnglishWords {
                 ans.append(convert(num / BILLION)).append(" Billion");
                 num %= BILLION;
             }
-            if (MILLION <= num && num < BILLION) {
+            if (MILLION <= num) {
                 ans.append(convert(num / MILLION)).append(" Million");
                 num %= MILLION;
             }
-            if (THOUSAND <= num && num < MILLION) {
+            if (THOUSAND <= num) {
                 ans.append(convert(num / THOUSAND)).append(" Thousand");
                 num %= THOUSAND;
             }
@@ -67,7 +70,7 @@ public class LC273IntegertoEnglishWords {
                 ans.append(convert(num));
             return ans.toString().trim();
         }
-
+        // Convert a number less than one thousand into string
         private String convert(int t) {
             StringBuilder ans = new StringBuilder();
             int hun = t / 100;

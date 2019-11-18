@@ -2,6 +2,7 @@ package com.leetcode.jolyon.amazon;
 
 import com.leetcode.jolyon.Node;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -35,15 +36,15 @@ public class DiagonalTraversalofBinaryTree {
 
     public static void main(String[] args) {
 
-        Node root = new Node(8);
-        root.left = new Node(3);
-        root.right = new Node(10);
-        root.left.left = new Node(1);
-        root.left.right = new Node(6);
-        root.right.right = new Node(14);
-        root.right.right.left = new Node(13);
-        root.left.right.left = new Node(4);
-        root.left.right.right = new Node(7);
+        Node root = new Node(8, new ArrayList());
+        root.left = new Node(3, new ArrayList());
+        root.right = new Node(10, new ArrayList());
+        root.left.left = new Node(1, new ArrayList());
+        root.left.right = new Node(6, new ArrayList());
+        root.right.right = new Node(14, new ArrayList());
+        root.right.right.left = new Node(13, new ArrayList());
+        root.left.right.left = new Node(4, new ArrayList());
+        root.left.right.right = new Node(7, new ArrayList());
 
         solve(root);
     }

@@ -10,20 +10,21 @@ public class LC239SlidingWindowMaximum {
             // Monotone Decreasing Deque
             // only store the idex!
             Deque<Integer> dq = new ArrayDeque<>();
-            int[] output = new int[nums.length-k+1];
+            int[] output = new int[nums.length-(k-1)];
             for(int i=0;i<nums.length;i++){
+                int cur = nums[i];
                 // Already Full, poll first one
-                if(dq.size()!=0&&dq.peekFirst()==i-k){
+                if(dq.size()!=0&&i-dq.peekFirst()==k){
                     dq.pollFirst();
                 }
                 // maintain the decreasing deque
-                while(dq.size()!=0&&nums[dq.peekLast()]<=nums[i]){
+                while(dq.size()!=0&&nums[dq.peekLast()]<=cur){
                     dq.pollLast();
                 }
                 // Add the current into deque.
                 dq.add(i);
                 if(i>=k-1){
-                    output[i-k+1]= nums[dq.peekFirst()];
+                    output[i-(k-1)]= nums[dq.peekFirst()];
                 }
             }
             return output;

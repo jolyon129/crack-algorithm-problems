@@ -3,9 +3,10 @@ package com.leetcode.jolyon;
 public class LC8StringtoInteger {
     public int myAtoi(String str) {
         int idx = 0;
+        // In default, the sign should be one
         int sign = 1;
         int total = 0;
-        int digit = 0;
+
         if(str.length()==0){
             return 0;
         }
@@ -21,7 +22,7 @@ public class LC8StringtoInteger {
             if (!Character.isDigit(str.charAt(idx))) {
                 break;
             }
-            digit = str.charAt(idx)-'0';
+            int digit = str.charAt(idx)-'0';
             if (total > Integer.MAX_VALUE / 10 || (total == Integer.MAX_VALUE / 10 && digit > Integer.MAX_VALUE % 10)) {
                 return sign == 1 ? Integer.MAX_VALUE : Integer.MIN_VALUE;
             }

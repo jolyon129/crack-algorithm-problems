@@ -3,20 +3,20 @@ package com.leetcode.jolyon;
 public class LC45JumpGameII {
     static class Solution {
         public int jump(int[] nums) {
-            if(nums.length<2) return 0;
-            int curRightmost =0;
-            int i =0;
-            int steps = 0;
-            while(i<=nums.length-1){
-                steps++;
-                int nextRightmost = 0;
-                for(;i<=curRightmost;i++){
-                    if(nums[i]+i>=nums.length-1) return steps;
-                    nextRightmost = Math.max(nextRightmost,nums[i]+i);
+            // Initially, only the first element in our "level"
+            int curRightMost =0;
+            int idx =0;
+            int step =0;
+            while(idx<nums.length){
+                if(curRightMost>=nums.length-1)  break;
+                int nextRightMost = 0;
+                for(;idx<=curRightMost;idx++){
+                    nextRightMost = Math.max(nextRightMost,idx+nums[idx]);
                 }
-                curRightmost = nextRightmost;
+                step++;
+                curRightMost = nextRightMost;
             }
-            throw new AssertionError();
+            return step;
         }
 
     }

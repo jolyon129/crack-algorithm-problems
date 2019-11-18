@@ -2,10 +2,13 @@ package com.leetcode.jolyon.bloomberg;
 
 import com.leetcode.jolyon.Node;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class LC138CopyListWithRandomPointer {
-    /*
+
+    class Solution2{
+            /*
     // Definition for a Node.
     class Node {
         public int val;
@@ -22,42 +25,91 @@ public class LC138CopyListWithRandomPointer {
     };
     */
 
-    // Visited dictionary to hold old node reference as "key" and new node reference as the "value"
-    HashMap<Node, Node> visited = new HashMap<Node, Node>();
+        // keep the old node --> new node mapping
+        // Visited dictionary to hold old node reference as "key" and new node reference as the "value"
+        HashMap<Node, Node> visited = new HashMap<Node, Node>();
 
-    public Node copyRandomList(Node head) {
+        public Node copyRandomList(Node head) {
 
-        if (head == null) {
-            return null;
-        }
-
-        Node originalNode = head;
-        // head
-        Node pseudoHead = new Node(-1);
-        Node prevNewNode = pseudoHead;
-        while (originalNode != null) {
-            Node newNode;
-            if (visited.containsKey(originalNode)) {
-                newNode = visited.get(originalNode);
-            } else {
-                newNode = new Node(originalNode.val);
-                visited.put(originalNode, newNode);
+            if (head == null) {
+                return null;
             }
-            Node oldRandom = originalNode.random;
-            if (oldRandom != null) {
-                if (visited.containsKey(oldRandom)) {
-                    newNode.random = visited.get(oldRandom);
+
+            Node originalNode = head;
+            // head
+            Node pseudoHead = new Node(-1, new ArrayList());
+            Node prevNewNode = pseudoHead;
+            while (originalNode != null) {
+                Node newNode;
+                if (visited.containsKey(originalNode)) {
+                    newNode = visited.get(originalNode);
                 } else {
-                    newNode.random = new Node(oldRandom.val);
-                    visited.put(oldRandom, newNode.random);
+                    newNode = new Node(originalNode.val, new ArrayList());
+                    visited.put(originalNode, newNode);
                 }
+                Node oldRandom = originalNode.random;
+                if (oldRandom != null) {
+                    if (visited.containsKey(oldRandom)) {
+                        newNode.random = visited.get(oldRandom);
+                    } else {
+                        newNode.random = new Node(oldRandom.val, new ArrayList());
+                        visited.put(oldRandom, newNode.random);
+                    }
+                }
+
+                prevNewNode.next = newNode;
+                prevNewNode = newNode;
+                originalNode = originalNode.next;
+            }
+            return pseudoHead.next;
+        }
+    }
+
+    public class Solution {
+        public Node copyRandomList(Node head) {
+
+            if (head == null) {
+                return null;
             }
 
-            prevNewNode.next = newNode;
-            prevNewNode = newNode;
-            originalNode = originalNode.next;
+            // Creating a new weaved list of original and copied nodes.
+            Node ptr = head;
+            while (ptr != null) {
+
+                // Cloned node
+                Node newNode = new Node(ptr.val, new ArrayList());
+
+                // Inserting the cloned node just next to the original node.
+                // If A->B->C is the original linked list,
+                // Linked list after weaving cloned nodes would be A->A'->B->B'->C->C'
+                newNode.next = ptr.next;
+                ptr.next = newNode;
+                ptr = newNode.next;
+            }
+
+            ptr = head;
+
+            // Now link the random pointers of the new nodes created.
+            // Iterate the newly created list and use the original nodes' random pointers,
+            // to assign references to random pointers for cloned nodes.
+            while (ptr != null) {
+                ptr.next.random = (ptr.random != null) ? ptr.random.next : null;
+                ptr = ptr.next.next;
+            }
+
+            // Unweave the linked list to get back the original linked list and the cloned list.
+            // i.e. A->A'->B->B'->C->C' would be broken to A->B->C and A'->B'->C'
+            Node ptr_old_list = head; // A->B->C
+            Node ptr_new_list = head.next; // A'->B'->C'
+            Node result = head.next;
+            while (ptr_old_list != null) {
+                ptr_old_list.next = ptr_old_list.next.next;
+                ptr_new_list.next = (ptr_new_list.next != null) ? ptr_new_list.next.next : null;
+                ptr_old_list = ptr_old_list.next;
+                ptr_new_list = ptr_new_list.next;
+            }
+            return result;
         }
-        return pseudoHead.next;
     }
 
 }

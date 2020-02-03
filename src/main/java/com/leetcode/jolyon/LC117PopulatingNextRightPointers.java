@@ -27,6 +27,7 @@ public class LC117PopulatingNextRightPointers {
                         current = currentHead;
                     }
                 }
+                // Iterate the same level by "next" pointer
                 parentPointer = parentPointer.next;
             }
             // Move parent to the next level

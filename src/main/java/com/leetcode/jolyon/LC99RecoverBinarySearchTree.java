@@ -33,7 +33,7 @@ public class LC99RecoverBinarySearchTree {
                     }
                     else {
                         // break link predecessor.right = root
-                        // link is broken : time to change subtree and go right
+                        // link is broken : timestamp to change subtree and go right
 
                         // simulate for the swapped nodes
                         if (pred != null && root.val < pred.val) {
@@ -75,8 +75,8 @@ public class LC99RecoverBinarySearchTree {
                 }
                 node = stack.pop();
                 if (prev != null && node.val < prev.val) {
-                    // The first time we met a mismatched situation, the
-                    // target is the prev node, while the second time should
+                    // The first timestamp we met a mismatched situation, the
+                    // target is the prev node, while the second timestamp should
                     // be the current node
                     // Always assign the current node to y
 

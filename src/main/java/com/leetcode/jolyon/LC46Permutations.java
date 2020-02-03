@@ -27,7 +27,7 @@ public class LC46Permutations {
             for (int j = 0; j < size; j++) {
                 Integer i = (Integer) iter.next();
                 path.add(i);
-                // The creation is time-consuming
+                // The creation is timestamp-consuming
                 Set<Integer> newSet = new HashSet(set);
                 newSet.remove(i);
                 recur(newSet, path, res);

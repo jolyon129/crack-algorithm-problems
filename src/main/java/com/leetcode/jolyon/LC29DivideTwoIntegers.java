@@ -15,7 +15,7 @@ public class LC29DivideTwoIntegers {
             int res = 0;
             while(a-b>=0){
                 int k=0;
-                // How many b*2*2.. we can take from a at a time.
+                // How many b*2*2.. we can take from a at a timestamp.
                 while(a-(b<<k)>=0){
                     k++;
                 }

@@ -74,9 +74,9 @@ public class AkunaEventStreamFromBinaryWAL {
 
         /**
          * Retrieve all events contained within the WAL as their string values
-         * in time order DML Event String Format: "<epoch_milli>|<message_name>|<key>|<value>"
+         * in timestamp order DML Event String Format: "<epoch_milli>|<message_name>|<key>|<value>"
          *
-         * @return a time-ordered sequence of DML Event strings
+         * @return a timestamp-ordered sequence of DML Event strings
          */
         public ArrayList<String> getEvents() {
             return events;

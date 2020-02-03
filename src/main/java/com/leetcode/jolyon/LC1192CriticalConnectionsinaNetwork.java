@@ -6,7 +6,7 @@ import java.util.List;
 
 public class LC1192CriticalConnectionsinaNetwork {
     class Solution {
-        int time = 0; // time when discover each vertex
+        int time = 0; // timestamp when discover each vertex
 
         public List<List<Integer>> criticalConnections(int n, List<List<Integer>> connections) {
             int[] disc = new int[n], low = new int[n];
@@ -35,7 +35,7 @@ public class LC1192CriticalConnectionsinaNetwork {
         }
 
         /**
-         * After each recursion, we assign the discover time to the current
+         * After each recursion, we assign the discover timestamp to the current
          * node and we finish filling the low[v] where v is one of current
          * node's neighbors.
          *

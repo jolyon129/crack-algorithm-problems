@@ -2,7 +2,7 @@ package com.leetcode.jolyon;
 
 public class MorrisTraversal {
 
-    // The time complexity is up to O(2n) time with constant space.
+    // The timestamp complexity is up to O(2n) timestamp with constant space.
     public void inorder(Node root) {
         Node current = root;
         while (current != null) {

@@ -16,11 +16,11 @@ public class LC253MeetingRooms2 {
                     // assign a new room to this meeting.
                     pq.offer(intervals[i]);
                 }else{
-                    // If we can reuse this room, we need to extend the time
+                    // If we can reuse this room, we need to extend the timestamp
                     // we used it.
                     int[] head = pq.poll();
                     head[1] = intervals[i][1];
-                    // extend the time of using the current room.
+                    // extend the timestamp of using the current room.
                     pq.offer(head);
                 }
             }
